@@ -3,7 +3,7 @@ import { DropdownButton, Dropdown } from "react-bootstrap";
 
 const BtnDropdown = ({ accountInfo }) => {
   return (
-    <DropdownButton id="dropdown-basic-button" title="View" variant="outline-primary">
+    <DropdownButton id="dropdown-basic-button" title="View" variant="outline-primary" size="sm">
       <Dropdown.Item>
         <span className="fw-bold">Account Name:</span> {accountInfo.accountName}
       </Dropdown.Item>
