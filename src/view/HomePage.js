@@ -8,17 +8,26 @@ import { getPaymentInfoAsync } from "../networkApi/PaymentInfo";
 
 const HomePage = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [hasMore, setHasMore] = useState(true);
+  const [hasMore, setHasMore] = useState(false);
   const [pageIndex, setPageIndex] = useState("");
   const [paymentInfo, setPaymentInfo] = useState([]);
+  const [filter, setFilter] = useState("");
 
   const getPaymentInfo = async () => {
     let response;
     try {
+      setIsLoading(true);
       response = await getPaymentInfoAsync(pageIndex);
-      setHasMore(response.data.metaDatal.hasMoreElements);
-      setPageIndex(response.data.metaDatal.nextPageIndex || "");
-      setPaymentInfo((prevState) => [...prevState, ...response.data.results]);
+      setHasMore(() => response.data.metaDatal.hasMoreElements);
+      setPageIndex(() => response.data.metaDatal.nextPageIndex || "");
+      if (filter) {
+        setPaymentInfo((prevState) => [
+          ...prevState,
+          ...response.data.results.filter((item) => item.paymentStatus === "P"),
+        ]);
+      } else {
+        setPaymentInfo((prevState) => [...prevState, ...response.data.results]);
+      }
       setIsLoading(false);
     } catch (err) {
       console.log(err);
@@ -27,15 +36,16 @@ const HomePage = () => {
   };
 
   useEffect(() => {
+    setPaymentInfo(() => []);
     getPaymentInfo();
     // eslint-disable-next-line
-  }, []);
+  }, [filter]);
 
   return (
     <Container fluid>
       <Row>
         <Col sm={2} id="colSidebar">
-          <Filter />
+          <Filter setFilter={setFilter} setPageIndex={setPageIndex} />
         </Col>
         <Col md={{ offset: 2 }} className="px-1">
           {isLoading ? (
