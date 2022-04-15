@@ -3,6 +3,7 @@ import { Container, Row, Col, Table, Spinner } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroll-component";
 import BtnDropdown from "../components/BtnDropdown";
 import Filter from "../components/Filter";
+import TableHead from "../components/TableHead";
 import { PAYMENT_STATUS } from "../constants";
 import { getPaymentInfoAsync } from "../networkApi/PaymentInfo";
 
@@ -51,17 +52,7 @@ const HomePage = () => {
           {isLoading ? (
             <>
               <Table striped bordered>
-                <thead id="tHead">
-                  <tr>
-                    <th>Payment Amount</th>
-                    <th>Payment Currency</th>
-                    <th>Payment Type</th>
-                    <th>Payment Date</th>
-                    <th>Payment Status</th>
-                    <th>To Account</th>
-                    <th>From Account</th>
-                  </tr>
-                </thead>
+                <TableHead/>
               </Table>
               <div
                 style={{
@@ -95,17 +86,7 @@ const HomePage = () => {
               }
             >
               <Table striped bordered>
-                <thead id="tHead">
-                  <tr>
-                    <th>Payment Amount</th>
-                    <th>Payment Currency</th>
-                    <th>Payment Type</th>
-                    <th>Payment Date</th>
-                    <th>Payment Status</th>
-                    <th>To Account</th>
-                    <th>From Account</th>
-                  </tr>
-                </thead>
+                <TableHead />
                 <tbody>
                   {paymentInfo.map((item, index) => (
                     <tr key={index}>
